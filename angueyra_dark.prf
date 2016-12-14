@@ -1,0 +1,33 @@
+# angueyra_dark - MATLAB color scheme
+# Generated with schemer_export v1.3.6, on MATLAB 9.0.0.341360 (R2016a)
+# Wed Dec 14 15:52:54 EST 2016
+# To enable this color scheme in MATLAB use schemer_import, available at:
+#     https://github.com/scottclowe/matlab-schemer
+#     https://www.mathworks.com/matlabcentral/fileexchange/53862-matlab-schemer
+ColorsUseSystem=Bfalse
+ColorsUseMLintAutoFixBackground=Btrue
+Editor.VariableHighlighting.Automatic=Btrue
+Editor.NonlocalVariableHighlighting=Btrue
+EditorCodepadHighVisible=Btrue
+EditorCodeBlockDividers=Btrue
+Editorhighlight-caret-row-boolean=Btrue
+EditorRightTextLineVisible=Bfalse
+EditorRightTextLimitLineWidth=I1
+ColorsText=C-1
+ColorsBackground=C-16777216
+Colors_M_Keywords=C-6908161
+Colors_M_Comments=C-8137950
+Colors_M_Strings=C-6283024
+Colors_M_UnterminatedStrings=C-5111808
+Colors_M_SystemCommands=C-5075968
+Colors_M_Errors=C-65536
+Colors_HTML_HTMLLinks=C-16776961
+Colors_M_Warnings=C-27648
+ColorsMLintAutoFixBackground=C-11449793
+Editor.VariableHighlighting.Color=C-11434876
+Editor.NonlocalVariableHighlighting.TextColor=C-16735325
+Editorhighlight-lines=C-15066598
+Editorhighlight-caret-row-boolean-color=C-14606047
+EditorRightTextLimitLineColor=C-3355444
+Color_CmdWinWarnings=C-39936
+Color_CmdWinErrors=C-1703936
