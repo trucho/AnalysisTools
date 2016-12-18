@@ -28,6 +28,14 @@ classdef lineH < handle
                 );  
         end
         
+        function lh = openmarkers(lh)
+            set(lh.h,...
+                'LineStyle','none',...
+                'Marker','o',...
+                'MarkerFaceColor','auto'...
+                );  
+        end
+        
         function lh = line(lh)
             set(lh.h,...
                 'LineStyle','-',...
@@ -138,6 +146,26 @@ classdef lineH < handle
             eh.h.FaceAlpha = 1;
             eh.h.LineStyle = 'none';
             uistack(eh.h,'down');
+        end
+        
+        function eh=errorbars(XData,YData,YError,fillColor,figH,basename)
+            if isempty(XData)
+                XData = 0:length(YData)-1;
+            end
+            if isempty(fillColor)
+                fillColor = [.5 .75 .75];
+            end
+            if isempty(basename)
+                basename = 'error_';
+            end
+            XData=repmat(XData,2,1);
+            eh=gobjects(1,length(XData));
+            for i=1:length(XData)
+               eh(i)=line(XData(:,i),...
+                   [YData(i)-YError(i) YData(i)+YError(i)],'Parent',figH); 
+               set(eh(i),'LineStyle','-','Marker','none','Color',fillColor);
+               set(eh(i),'DisplayName',sprintf('%s%02g',basename,i))
+            end
         end
     end
 end
