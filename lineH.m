@@ -135,6 +135,10 @@ classdef lineH < handle
             end
             set(lh.h,'DisplayName',name,'tag',name)
         end
+        
+        function lh = lowPassFilter(lh,freq,samplingInterval)
+            lh.h.YData = lh.lpf(lh.h.YData,freq,samplingInterval);
+        end
     end
     methods (Static = true)
         function eh=errorfill(XData,YData,YError,fillColor,figH)
@@ -176,6 +180,30 @@ classdef lineH < handle
                set(eh(i),'LineStyle','-','Marker','none','Color',fillColor);
                set(eh(i),'DisplayName',sprintf('%s%02g',basename,i))
             end
+        end
+        
+        function filtered_data = lpf(data,freq,samplingInterval)
+            % low pass filtering (freq in Hz, samplingInterval in s)
+            % X is a vector or a matrix of row vectors
+            % this needs zero padding that accomodates to freq
+            L = size(data,2);
+            if L == 1 %flip if given a column vector
+                data=data';
+                L = size(data,2);
+            end
+            
+            padF = 1/4;
+            padded_data = [ones(1,L*padF)*data(1) data ones(1,L*padF)*data(end)];
+            
+            freqStepSize = 1/(samplingInterval * L);
+            freqCutoffPts = round(freq / freqStepSize);
+            
+            % eliminate frequencies beyond cutoff (middle of matrix given fft
+            % representation)
+            FFTData = fft(padded_data, [], 2);
+            FFTData(:,freqCutoffPts:size(FFTData,2)-freqCutoffPts) = 0;
+            padded_filtered_data = real(ifft(FFTData, [], 2));
+            filtered_data = padded_filtered_data(L*padF+1:L*padF+L);
         end
     end
 end
