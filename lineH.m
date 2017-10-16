@@ -177,7 +177,7 @@ classdef lineH < handle
             for i=1:length(XData)
                eh(i)=line(XData(:,i),...
                    [YData(i)-YError(i) YData(i)+YError(i)],'Parent',figH); 
-               set(eh(i),'LineStyle','-','Marker','none','Color',fillColor);
+               set(eh(i),'LineStyle','-','Marker','none','Color',fillColor,'LineWidth',2);
                set(eh(i),'DisplayName',sprintf('%s%02g',basename,i))
             end
         end
