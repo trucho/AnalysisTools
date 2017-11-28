@@ -36,6 +36,7 @@ classdef lineH < handle
                 );  
         end
         
+        
         function lh = line(lh)
             set(lh.h,...
                 'LineStyle','-',...
