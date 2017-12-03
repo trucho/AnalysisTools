@@ -14,6 +14,9 @@ classdef lineH < handle
             if isempty(XData)
                 XData = 0:length(YData)-1;
             end
+            nanix = ~(isnan(XData)|isnan(YData)|isinf(XData)|isinf(YData));
+            XData = XData(nanix);
+            YData = YData(nanix);
             lh.Parent=figH;
             lh.h = line(XData,YData,'Parent',lh.Parent);
             lh.markers();
@@ -142,10 +145,14 @@ classdef lineH < handle
         end
     end
     methods (Static = true)
-        function eh=errorfill(XData,YData,YError,fillColor,figH)
+        function eh=errorfill(XData,YData,YError,fillColor,figH,basename)
             if isempty(XData)
                 XData = 0:length(YData)-1;
             end
+            nanix=~(isnan(XData)|isnan(YData)|isnan(YError)|isinf(XData)|isinf(YData)|isinf(YError));
+            XData = XData(nanix);
+            YData = YData(nanix);
+            YError = YError(nanix);
             if isempty(fillColor)
                 fillColor = [.5 .75 .75];
             end
@@ -157,10 +164,39 @@ classdef lineH < handle
             eh.Parent=figH;
             XFill = [XData fliplr(XData)];
             YFill = [YData+YError fliplr(YData-YError)];
-            eh.h = patch(XFill,YFill,fillColor,'Parent',eh.Parent);
+%             nanix=~(isnan(XFill)|isnan(YFill));
+%             XFill = XFill(nanix);
+%             YFill = YFill(nanix);
+            %fot Matlab
+            eh.h = patch(XFill,YFill,fillColor,.5,'Parent',eh.Parent);
+            eh.h.DisplayName = basename;
             eh.h.FaceAlpha = 1;
             eh.h.LineStyle = 'none';
             uistack(eh.h,'down');
+        end
+        
+        function eh=errorfillIgor(XData,YData,YError,fillColor,figH,basename)
+            if isempty(XData)
+                XData = 0:length(YData)-1;
+            end
+            nanix=~(isnan(XData)|isnan(YData)|isnan(YError)|isinf(XData)|isinf(YData)|isinf(YError));
+            XData = XData(nanix);
+            YData = YData(nanix);
+            YError = YError(nanix);
+            if isempty(fillColor)
+                fillColor = [.5 .75 .75];
+            end
+            if length(YData)>1000
+               XData = decimate(XData,10);
+               YData = decimate(YData,10);
+               YError = decimate(YError,10);
+            end
+            eh.Parent=figH;
+            %for Igor export
+            eh.hPlus = lineH(XData,YData+YError,figH);
+            eh.hPlus.line;eh.hPlus.color(fillColor); eh.hPlus.setName(sprintf('%sPlus',basename));
+            eh.hMinus = lineH(XData,YData-YError,figH);
+            eh.hMinus.line;eh.hMinus.color(fillColor); eh.hMinus.setName(sprintf('%sMinus',basename));
         end
         
         function eh=errorbars(XData,YData,YError,fillColor,figH,basename)
