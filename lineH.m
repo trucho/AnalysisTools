@@ -230,7 +230,8 @@ classdef lineH < handle
             end
             
             padF = 1/4;
-            padded_data = [ones(1,L*padF)*data(1) data ones(1,L*padF)*data(end)];
+            padL = round(L*padF);
+            padded_data = [ones(1,padL)*data(1) data ones(1,padL)*data(end)];
             
             freqStepSize = 1/(samplingInterval * L);
             freqCutoffPts = round(freq / freqStepSize);
@@ -240,7 +241,7 @@ classdef lineH < handle
             FFTData = fft(padded_data, [], 2);
             FFTData(:,freqCutoffPts:size(FFTData,2)-freqCutoffPts) = 0;
             padded_filtered_data = real(ifft(FFTData, [], 2));
-            filtered_data = padded_filtered_data(L*padF+1:L*padF+L);
+            filtered_data = padded_filtered_data(padL+1:padL+L);
         end
     end
 end
