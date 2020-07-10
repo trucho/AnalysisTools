@@ -19,7 +19,7 @@ classdef lineH < handle
             YData = YData(nanix);
             lh.Parent=figH;
             lh.h = line(XData,YData,'Parent',lh.Parent);
-            lh.markers();
+            lh.line();
         end
         
         function lh = markers(lh)
@@ -90,6 +90,26 @@ classdef lineH < handle
                 );  
         end
         
+        function lh = linegreen(lh)
+            set(lh.h,...
+                'LineStyle','-',...
+                'LineWidth',1,...
+                'Marker','none',...
+                'Color',[0 1 0],...
+                'MarkerFaceColor',[0 0 0]...
+                );  
+        end
+        
+        function lh = linem(lh)
+            set(lh.h,...
+                'LineStyle','-',...
+                'LineWidth',1,...
+                'Marker','none',...
+                'Color',[1 0 1],...
+                'MarkerFaceColor',[0 0 0]...
+                );  
+        end
+        
         function lh = linedash(lh)
             set(lh.h,...
                 'LineStyle','--',...
@@ -98,6 +118,14 @@ classdef lineH < handle
                 'Color',[.4 .4 .4],...
                 'MarkerFaceColor',[0 0 0]...
                 );  
+        end
+        
+        function lh = linewidth_up(lh)
+            lh.h.LineWidth=lh.h.LineWidth+1;
+        end
+        
+        function lh = linewidth_down(lh)
+            lh.h.LineWidth=lh.h.LineWidth-1;
         end
         
         function lh = linemarkers(lh)
@@ -138,6 +166,31 @@ classdef lineH < handle
                 error('no name provided as string')
             end
             set(lh.h,'DisplayName',name,'tag',name)
+        end
+        
+        function lh = setXLabel(lh,xlabel)
+            if ~ischar(xlabel)
+                error('xlabel not provided as string')
+            end
+            lh.Parent.XLabel.String = xlabel;
+        end
+        
+        function lh = setYLabel(lh,ylabel)
+            if ~ischar(ylabel)
+                error('xlabel not provided as string')
+            end
+            lh.Parent.YLabel.String = ylabel;
+        end
+        
+        function lh = setLabels(lh,xlabel,ylabel)
+            if ~ischar(xlabel)
+                error('xlabel not provided as string')
+            end
+            if ~ischar(ylabel)
+                error('ylabel not provided as string')
+            end
+            lh.setXLabel(xlabel);
+            lh.setYLabel(ylabel);
         end
         
         function lh = lowPassFilter(lh,freq,samplingInterval)
